@@ -40,8 +40,8 @@ export class MoviesController {
 
   @Put(':id')
   update(
-    @Body() @Param('id') id: string,
-    updateMovieDto: UpdateMovieDto,
+    @Body() updateMovieDto: UpdateMovieDto,
+    @Param('id') id: string,
   ): Promise<Movie> {
     return this.moviesService.update(id, updateMovieDto);
   }
