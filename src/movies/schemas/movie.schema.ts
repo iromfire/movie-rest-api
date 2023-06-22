@@ -10,6 +10,9 @@ export class Movie {
 
   @Prop()
   description: string;
+
+  @Prop()
+  rating: number;
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);

@@ -13,11 +13,21 @@ export class MoviesService {
     return this.movieModel.find().exec();
   }
 
+  async getSortAscByRating(): Promise<Movie[]> {
+    return this.movieModel.find().sort({ rating: 1 }).exec();
+  }
+
+  async getSortDescByRating(): Promise<Movie[]> {
+    return this.movieModel.find().sort({ rating: -1 }).exec();
+  }
+
   async getById(id: string): Promise<Movie> {
     return this.movieModel.findById(id);
   }
 
   async create(createMovieDto: CreateMovieDto): Promise<Movie> {
+    if (createMovieDto.rating > 10) {
+    }
     const newMovie = new this.movieModel(createMovieDto);
     return newMovie.save();
   }
