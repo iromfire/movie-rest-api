@@ -23,8 +23,8 @@ export class MoviesController {
 
   @Get()
   getAll(
-    @Query('sort_asc') sortAsc: boolean,
-    @Query('sort_desc') sortDesc: boolean,
+    @Query('sort_asc') sortAsc?: boolean,
+    @Query('sort_desc') sortDesc?: boolean,
   ): Promise<Movie[]> {
     if (sortAsc) {
       return this.moviesService.getSortAscByRating();
