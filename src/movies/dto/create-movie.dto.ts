@@ -21,4 +21,7 @@ export class CreateMovieDto {
   @Min(1)
   @Max(10)
   readonly rating: number;
+
+  @ApiProperty()
+  readonly photos?: string[];
 }

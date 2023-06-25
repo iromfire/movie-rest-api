@@ -23,6 +23,10 @@ export class Movie {
   })
   @Prop()
   rating: number;
+
+  @ApiProperty()
+  @Prop([String])
+  photos: string[];
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);

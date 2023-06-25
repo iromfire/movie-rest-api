@@ -11,12 +11,15 @@ import {
   Query,
   UsePipes,
   ValidationPipe,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { MoviesService } from './movies.service';
 import { Movie } from './schemas/movie.schema';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Фильмы')
 @Controller('api/movies')
@@ -71,5 +74,21 @@ export class MoviesController {
     @Body() updateMovieDto: UpdateMovieDto,
   ): Promise<Movie> {
     return this.moviesService.update(id, updateMovieDto);
+  }
+
+  @ApiOperation({ summary: 'Добавление фото к фильму по id' })
+  @Post(':id/photos')
+  @UseInterceptors(FileInterceptor('photo'))
+  async addPhoto(
+    @Param('id') id: string,
+    @UploadedFile() photo: Express.Multer.File,
+  ): Promise<void> {
+    await this.moviesService.addPhoto(id, photo);
+  }
+
+  @ApiOperation({ summary: 'Получение всех фото к фильму по id' })
+  @Get(':id/photos')
+  async getPhotos(@Param('id') id: string): Promise<string[]> {
+    return await this.moviesService.getPhotos(id);
   }
 }

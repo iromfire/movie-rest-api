@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
+import { Express } from 'express';
 
 @Injectable()
 export class MoviesService {
@@ -40,5 +41,22 @@ export class MoviesService {
     return this.movieModel.findByIdAndUpdate(id, updateMovieDto, {
       new: true,
     });
+  }
+
+  async addPhoto(id: string, photo: Express.Multer.File) {
+    const movie = await this.movieModel.findById(id);
+    if (!movie) {
+      throw new Error('Movie not found');
+    }
+    movie.photos.push(photo.filename);
+    await movie.save();
+  }
+
+  async getPhotos(id: string) {
+    const movie = await this.movieModel.findById(id);
+    if (!movie) {
+      throw new Error('Movie not found');
+    }
+    return movie.photos;
   }
 }
